@@ -1,0 +1,83 @@
+
+<!-- saved from url=(0037)http://54.194.153.181:8006/huuto.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="./huuto_files/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $("#doSearch1").click(function(){
+    var postalCode1 = $('#postalCodeField1').val();
+    var searchUrl = "http://api.huuto.net/1.1/items?area=" + postalCode1;
+
+    $.ajax({
+        url: searchUrl
+    }).then(function(data) {
+       $('p.result').text(data.totalCount);
+       console.log(data.timestamp);
+    });
+
+  });
+
+});
+
+</script>
+
+<script>
+$(document).ready(function() {
+  $("#doSearch2").click(function(){
+    var postalCode2 = $('#postalCodeField2').val();
+    var searchUrl = "http://api.huuto.net/1.1/items?area=" + postalCode2;
+
+    $.ajax({
+        url: searchUrl
+    }).then(function(data) {
+       $('p.result').text(data.totalCount);
+       console.log(data.totalCount);
+
+       var itemArray = data.items;
+
+       $("#itemtable").empty();
+       itemArray.forEach( function(item) {
+          $("#itemtable").append("<TR><TD>"+item.id+     "</TD><TD>"
+                                           +item.title+  "</TD><TD>"
+                                           +item.seller+ "</TD</TR>");
+       });
+
+    });
+
+  });
+
+});
+</script>
+
+
+
+</head>
+
+<body>
+ <div>
+   <p class="totalCount">count is </p>
+        </div>
+<div> <p class="result">result is </p> </div>
+
+<form>
+<input type="text" id="postalCodeField1"><br>
+</form>
+
+<button id="doSearch1">Lukumäärä postinumeron perusteella</button>
+
+<form>
+<input type="text" id="postalCodeField2"><br>
+</form>
+
+<button id="doSearch2">Listaa postinumeron perusteella</button>
+
+<table id="itemtable" border="1">
+</table>
+
+
+
+
+
+
+</body></html>
